@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Traits\ApiResponser;
-use App\Author;
-use Illuminate\Support\Facades\Auth;
+use App\Book;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 // use Image;
 
-class AuthorController extends Controller
+class BookController extends Controller
 {   
 
     use ApiResponser;
@@ -29,8 +28,8 @@ class AuthorController extends Controller
      */
     public function index()
     {
-      $authors = Author::all();
-      return $this->successResponse($authors);
+      $books = Book::all();
+      return $this->successResponse($books);
     }
 
 
@@ -43,16 +42,17 @@ class AuthorController extends Controller
     public function store(Request $request)
     {
       $rules = [
-        'name' => 'required|max:255',
-        'gender' => 'required|max:255|in:male,female',
-        'country' => 'required|max:255',
+        'title' => 'required|max:255',
+        'description' => 'required|max:255',
+        'price' => 'required|min:1',
+        'author_id' => 'required|min:1',
       ];
 
       $this->validate($request, $rules);
 
-      $author = Author::create($request->all());
+      $book = Book::create($request->all());
       
-      return $this->successResponse($author, Response::HTTP_CREATED);
+      return $this->successResponse($book, Response::HTTP_CREATED);
 
 
       
@@ -65,11 +65,10 @@ class AuthorController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Author $author, $id)
+    public function show(Book $book, $id)
     {
-      $author = Author::findOrFail($id);
-
-      return $this->successResponse($author);
+      $book = Book::findOrFail($id);
+      return $this->successResponse($book);
     }
 
 
@@ -95,23 +94,24 @@ class AuthorController extends Controller
     {
 
       $rules = [
-        'name' => 'max:255',
-        'gender' => 'max:255|in:male,female',
-        'country' => 'max:255',
+        'title' => 'max:255',
+        'description' => 'max:255',
+        'price' => 'min:1',
+        'author_id' => 'min:1',
       ];
 
       $this->validate($request, $rules);
 
-      $author = Author::findOrFail($id);
-      $author->fill($request->all());
+      $book = Book::findOrFail($id);
+      $book->fill($request->all());
 
-      if($author->isClean()){
+      if($book->isClean()){
         return $this->errorResponse('Sorry, new value is same with old value.',
         Response::HTTP_UNPROCESSABLE_ENTITY);
       }
-      $author->save();
+      $book->save();
 
-      return $this->successResponse($author);
+      return $this->successResponse($book);
 
     }
 
@@ -124,10 +124,11 @@ class AuthorController extends Controller
      */
     public function destroy(Request $Request, $id)
     {
-      $author = Author::findOrFail($id);
-      $author->delete();
+      $book = Book::findOrFail($id);
+      $book->delete();
 
-      return $this->successResponse($author);
+      return $this->successResponse($book);
+     
     }
 
 
