@@ -16,7 +16,7 @@ class BookController extends Controller
 
      /**
      * The service to consume the books microservice
-     * @var Authorservice
+     * @var Bookservice
      */
     public $bookService;
 
@@ -36,7 +36,7 @@ class BookController extends Controller
      */
     public function index()
     {
-      
+      return $this->successResponse($this->bookService->obtainBooks());
     }
 
 
@@ -48,7 +48,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-      
+      return $this->successResponse($this->bookService->createBook($request->all(), Response::HTTP_CREATED));
     }
 
 
@@ -58,21 +58,9 @@ class BookController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book, $id)
+    public function show($id)
     {
-    
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function edit()
-    {
-  
+     return $this->successResponse($this->bookService->obtainBook($id));
     }
   
 
@@ -84,19 +72,19 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+       return $this->successResponse($this->bookService->editBook($request->all(), $id));
     }
 
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Author
+     * @param  \App\Book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $Request, $id)
+    public function destroy($id)
     {
-     
+     return $this->successResponse($this->bookService->deleteBook($id));
     }
 
 
