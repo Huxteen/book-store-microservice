@@ -6,20 +6,28 @@ use App\Traits\ApiResponser;
 use App\Book;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-// use Image;
+use App\Services\BookService;
+
 
 class BookController extends Controller
 {   
 
     use ApiResponser;
 
+     /**
+     * The service to consume the books microservice
+     * @var Authorservice
+     */
+    public $bookService;
 
-    public function __construct()
+
+    public function __construct(BookService $bookService)
     {
-      //
+      $this->bookService = $bookService;
     }
 
 
+   
     /**
      * Store a newly created resource in storage.
      *  

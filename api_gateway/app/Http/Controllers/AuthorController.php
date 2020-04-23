@@ -7,17 +7,21 @@ use App\Author;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-// use Image;
+use App\Services\AuthorService;
 
 class AuthorController extends Controller
 {   
-
     use ApiResponser;
+    /**
+     * The service to consume the authors microservice
+     * @var AuthorService
+     */
+    public $authorService;
 
 
-    public function __construct()
+    public function __construct(AuthorService $authorService)
     {
-        //
+        $this->authorService = $authorService;
     }
 
 
@@ -29,7 +33,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-      
+      return $this->successResponse($this->authorService->obtainAuthors());
     }
 
 
@@ -41,8 +45,7 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-      
-      
+      return $this->successResponse($this->authorService->createAuthor($request->all(), Response::HTTP_CREATED));
     }
 
 
@@ -52,21 +55,9 @@ class AuthorController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Author $author, $id)
+    public function show($id)
     {
-     
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function edit()
-    {
-  
+     return $this->successResponse($this->authorService->obtainAuthor($id));
     }
   
 
@@ -78,9 +69,7 @@ class AuthorController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-      
-
+       return $this->successResponse($this->authorService->editAuthor($request->all(), $id));
     }
 
 
@@ -90,9 +79,9 @@ class AuthorController extends Controller
      * @param  \App\Author
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $Request, $id)
+    public function destroy($id)
     {
-     
+     return $this->successResponse($this->authorService->deleteAuthor($id));
     }
 
 

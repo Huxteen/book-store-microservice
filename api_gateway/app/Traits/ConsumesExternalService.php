@@ -9,10 +9,10 @@ trait ConsumesExternalService {
   // send a request to any service
   // @return string
 
-  public function performReguest($method, $requestUrl, $formParams=[], $headers = [])
+  public function performRequest($method, $requestUrl, $formParams=[], $headers = [])
   {
     $client = new Client([
-      'base_url' => $this->baseUri,
+      'base_uri' => $this->baseUri,
     ]);
 
     $response = $client->request($method, $requestUrl, 
