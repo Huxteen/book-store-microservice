@@ -5,3 +5,6 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 database/database.sqlite
+*sublime*
+storage/*.key
+

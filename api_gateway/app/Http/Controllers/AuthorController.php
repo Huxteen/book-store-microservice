@@ -52,7 +52,7 @@ class AuthorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Company  $company
+     * @param  \App\Author  $Author
      * @return \Illuminate\Http\Response
      */
     public function show($id)
